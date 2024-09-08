@@ -27,5 +27,5 @@ notification:
   email_to: email_address
   smtp_domain: smtp_domain
   smtp_port: smtp_domain
-  smtp_user: email_address@naver.com
+  smtp_user: email_address
   smtp_key: smtp_key
