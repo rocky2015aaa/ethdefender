@@ -49,6 +49,7 @@ Execute the following command in the repository directory:
 #### Tester
 ```
 make go-build-test
+./bin/ethtester --help
 ```
 #### Detector
 
