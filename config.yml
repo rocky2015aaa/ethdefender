@@ -1,0 +1,31 @@
+log_level: debug
+
+gin:
+  mode: debug # Possible values: "release", "debug"
+
+database:
+  log: false
+
+app:
+  slither_path: /venv/bin/
+  assets_path: /appication/assets/
+
+ethereum:
+  # chain_id: 11155111
+  # subscription_url: wss://sepolia.infura.io/ws/v3/32a256ad678344cba136109d59754b00
+  # contract_address: 0x3131971264fE756D66C6a54F9D156f2a4fAFB7ee
+  chain_id: 17000
+  subscription_url: wss://ethereum-holesky-rpc.publicnode.com
+  contract_address: 0xB52e413A29d3EE569876CBb25394DCFe8626F57e
+  contract_abi_location: assets/contract/vulnerable_contract_abi.json
+  updated_contract_abi_location: assets/contract/updated_vulnerable_contract_abi.json
+  contract_owner_private_key: contract_owner_private_key
+  test_account_private_key: test_account_private_key
+
+notification:
+  email_from: email_address
+  email_to: email_address
+  smtp_domain: smtp_domain
+  smtp_port: smtp_domain
+  smtp_user: email_address@naver.com
+  smtp_key: smtp_key

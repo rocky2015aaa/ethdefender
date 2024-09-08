@@ -1,0 +1,127 @@
+basePath: /
+definitions:
+  http.Error:
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+    type: object
+  reports.Resp:
+    properties:
+      data: {}
+      message:
+        type: string
+      status_code:
+        type: integer
+    type: object
+host: localhost
+info:
+  contact:
+    email: rocky2010aaa@gmail.com
+    name: Donggeon Lee
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: ETH Defender Service
+  version: 1.0.0
+paths:
+  /api/v1/report/pause:
+    get:
+      consumes:
+      - application/json
+      description: Get a pause report
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/reports.Resp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.Error'
+      tags:
+      - Pause
+  /api/v1/report/slither:
+    get:
+      consumes:
+      - application/json
+      description: Get a slither report
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/reports.Resp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.Error'
+      tags:
+      - Slither
+    post:
+      consumes:
+      - application/json
+      description: Creates or Updates a slither order
+      parameters:
+      - description: Contract file to upload
+        in: formData
+        name: contact_file
+        required: true
+        type: file
+      - description: Contract name
+        in: formData
+        name: contact_name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/reports.Resp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.Error'
+      tags:
+      - Slither
+  /api/v1/report/transaction:
+    get:
+      consumes:
+      - application/json
+      description: Get a transaction report
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/reports.Resp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.Error'
+      tags:
+      - Transaction
+swagger: "2.0"

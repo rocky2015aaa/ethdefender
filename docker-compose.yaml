@@ -1,0 +1,54 @@
+services:
+
+  reporter:
+    container_name: reporter
+    image:
+      rocky2015aaa/ethdefender_reporter:latest
+    ports:
+      - ${REPORTER_PORT:-8080}:8080
+    volumes:
+      - ./config.yml:/appication/config.yml  # Mount the config file as a volume
+      - ./assets:/appication/assets
+      - ./docs:/appication/docs
+    restart: unless-stopped
+    depends_on:
+      reporter_db:
+        condition: service_healthy
+    links:
+      - reporter_db
+
+  detector:
+    container_name: detector
+    image:
+      rocky2015aaa/ethdefender_detector:latest
+    volumes:
+      - ./config.yml:/appication/config.yml
+      - ./assets:/appication/assets
+    restart: unless-stopped
+    
+  preventer:
+    container_name: preventer
+    image:
+      rocky2015aaa/ethdefender_preventer:latest
+    volumes:
+      - ./config.yml:/appication/config.yml
+      - ./assets:/appication/assets
+    restart: unless-stopped
+    
+  reporter_db:
+    container_name: reporter_db
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-1q2w3e4r}
+      POSTGRES_DB: postgres
+    volumes:
+      - $HOME${REPORTER_DB_VOLUME_PATH:-/data/postgres}:/var/lib/postgresql/data
+    ports:
+      - ${POSTGRES_PORT:-5432}:5432
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 3

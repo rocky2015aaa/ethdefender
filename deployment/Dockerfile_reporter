@@ -1,0 +1,51 @@
+# Base image for building the Go application
+FROM golang:1.23 AS base
+LABEL author='Donggeon'
+
+# Create and set up the working directory
+RUN mkdir /app
+ADD . /app
+WORKDIR /app
+
+# Define build-time arguments
+ARG VERSION=dev
+ARG BUILD=dev
+ARG DATE=1970-01-01_00:00:00
+
+# Build the Go application
+RUN CGO_ENABLED=0 go build -ldflags "-X github.com/rocky2015aaa/ethdefender/internal/config.Version=${VERSION} -X github.com/rocky2015aaa/ethdefender/internal/config.Build=${BUILD} -X github.com/rocky2015aaa/ethdefender/internal/config.Date=${DATE}" -o reporter cmd/reporter/main.go
+
+# Use Ubuntu base image
+FROM ubuntu:22.04
+
+# Set environment variables to non-interactive (prevents prompts during package installation)
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Update package list and install dependencies
+RUN apt-get update \
+    && apt-get install -y software-properties-common \
+    && add-apt-repository ppa:ethereum/ethereum \
+    && apt-get update \
+    && apt-get install -y python3 python3-pip python3-venv \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create and use a virtual environment
+RUN python3 -m venv /venv
+ENV PATH="/venv/bin:$PATH"
+
+# Upgrade pip and install any Python packages
+RUN pip install --upgrade pip && pip install slither-analyzer solc-select \
+    && solc-select install 0.8.20 && solc-select use 0.8.20
+
+# Set working directory
+WORKDIR /appication
+
+# Copy application files from the base image
+COPY --from=base /app/reporter .
+#COPY --from=base /app/config.yml .
+COPY --from=base /app/.env .
+#COPY --from=base /app/assets /appication/assets
+#COPY --from=base /app/docs /appication/docs
+
+# Set the default command to run the Go application
+CMD ["./reporter"]

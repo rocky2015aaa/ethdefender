@@ -1,0 +1,25 @@
+FROM golang:1.23 AS base
+LABEL author='Donggeon'
+
+RUN mkdir /app
+ADD . /app
+WORKDIR /app
+
+# Define build-time arguments
+ARG VERSION=dev
+ARG BUILD=dev
+ARG DATE=1970-01-01_00:00:00
+
+RUN CGO_ENABLED=0 go build -ldflags "-X github.com/rocky2015aaa/ethdefender/internal/config.Version=${VERSION} -X github.com/rocky2015aaa/ethdefender/internal/config.Build=${BUILD} -X github.com/rocky2015aaa/ethdefender/internal/config.Date=${DATE}" -o preventer cmd/preventer/main.go
+
+FROM alpine:latest
+
+RUN mkdir /appication
+WORKDIR /appication
+
+COPY --from=base /app/preventer .
+#COPY --from=base /app/config.yml .
+COPY --from=base /app/.env .
+#COPY --from=base /app/assets /appication/assets
+
+CMD ["./preventer"]

@@ -1,0 +1,113 @@
+{
+	"info": {
+		"_postman_id": "8a34e1e7-e016-4c30-b478-8bc4354b42d2",
+		"name": "ETH defender",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "861554"
+	},
+	"item": [
+		{
+			"name": "get transaction report",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/report/transaction",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"report",
+						"transaction"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get pause report",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/report/pause",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"report",
+						"pause"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get slither report",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/report/slither",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"report",
+						"slither"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create slither report",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "contract_file",
+							"type": "file",
+							"src": "/home/rocky/workspace/go/src/github.com/rocky2015aaa/ethdefender/assets/contract/test_copy.sol"
+						},
+						{
+							"key": "contract_name",
+							"value": "test",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/report/slither",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"report",
+						"slither"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
